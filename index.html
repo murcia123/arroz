@@ -6,7 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pasarela de Pagos</title>
     <script src="https://checkout.epayco.co/checkout.js"></script>
-<!-- dsjsd -->
+
+    <script>
+        // Sobrescribir la función setSocialMediaSharingData para evitar su ejecución
+        window.setSocialMediaSharingData = function() {
+            console.log("Función setSocialMediaSharingData desactivada.");
+        };
+        
+        // Cargar el script de document360 solo si no estamos en la página de checkout
+        if (window.location.pathname !== "/checkout") {
+            var script = document.createElement('script');
+            script.src = 'https://cdn.document360.io/static/js/vendor.4ae16f7f0d6e9cc9c74b.js.gz';
+            document.head.appendChild(script);
+        }
+    </script>
+
 </head>
 
 <body>
@@ -16,10 +30,10 @@
 
     <script>
         var handler = ePayco.checkout.configure({
-            key: '84d4ff217f3ead0cee2196a6673b0ebc',
+            key: 'd043c38cfbe67737267624b3081f44c9',
             test: true
         });
-
+    
         // Configurar los datos para la pasarela de pago
         var data = {
             // Parámetros obligatorios
@@ -33,10 +47,10 @@
             tax_ico: "500", // Impuesto al consumo
             country: "co",
             lang: "es", // Usa el valor de lang
-
-            //Onpage="false" - Standard="true"
+    
+            // Onpage="false" - Standard="true"
             external: "false",
-
+    
             // Atributos cliente
             name_billing: "Nelson Valencia",
             address_billing: "Carrera 19 numero 14 91",
@@ -44,20 +58,29 @@
             number_doc_billing: "1000898574",
             email_billing: "email_billing",
             type_doc_billing: "cc",
-
+    
             confirmation: "urlConfirmation",
             response: "urlResponse",
-
+    
             // Atributos opcionales
             extra1: "extra1",
             extra2: "extra2",
             extra3: "extra3",
-
+    
             // Deshabilitar métodos de pago
             //methodsDisable: ["TDC", "PSE", "SP", "CASH", "DP"]
             method_confirmation: ["TDC", "PSE", "SP", "CASH", "DP"],
         };
-
+    
+        // Intentar llamar a setSocialMediaSharingData si está definida
+        try {
+            if (typeof window.setSocialMediaSharingData === "function") {
+                window.setSocialMediaSharingData();
+            }
+        } catch (error) {
+            console.error("Error al ejecutar setSocialMediaSharingData: ", error);
+        }
+    
         // Agregar evento al botón para abrir el checkout
         document.getElementById('checkoutButton').addEventListener('click', function () {
             handler.open(data);
