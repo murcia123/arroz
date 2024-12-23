@@ -28,61 +28,42 @@
         <img src="https://multimedia-epayco-preprod.s3.amazonaws.com/dashboard/btns/btn5.png" alt="Iniciar Compra" style="cursor:pointer;">
     </button>
 
+    <script src="config.js"></script>
     <script>
-        var handler = ePayco.checkout.configure({
-            key: 'd043c38cfbe67737267624b3081f44c9',
-            test: true
+        const clientToken = CONFIG.clientToken;
+    
+        // Configurar ePayco
+        const handler = ePayco.checkout.configure({
+            key: clientToken,
+            test: true,
         });
     
-        // Configurar los datos para la pasarela de pago
-        var data = {
-            // Parámetros obligatorios
+        const data = {
             name: "Vestido Mujer Primavera",
             description: "Vestido Mujer Primavera",
             invoice: "MURCIA-7865",
-            currency: "cop", // Moneda
-            amount: "5000", // Total del pedido
-            tax_base: "4000", // Subtotal
-            tax: "500", // IVA
-            tax_ico: "500", // Impuesto al consumo
+            currency: "cop",
+            amount: "5000",
+            tax_base: "4000",
+            tax: "500",
+            tax_ico: "500",
             country: "co",
-            lang: "es", // Usa el valor de lang
-    
-            // Onpage="false" - Standard="true"
+            lang: "es",
             external: "false",
-    
-            // Atributos cliente
             name_billing: "Nelson Valencia",
             address_billing: "Carrera 19 numero 14 91",
             mobilephone_billing: "3005604163",
             number_doc_billing: "1000898574",
             email_billing: "email_billing",
             type_doc_billing: "cc",
-    
             confirmation: "urlConfirmation",
             response: "urlResponse",
-    
-            // Atributos opcionales
             extra1: "extra1",
             extra2: "extra2",
             extra3: "extra3",
-    
-            // Deshabilitar métodos de pago
-            //methodsDisable: ["TDC", "PSE", "SP", "CASH", "DP"]
-            method_confirmation: ["TDC", "PSE", "SP", "CASH", "DP"],
         };
     
-        // Intentar llamar a setSocialMediaSharingData si está definida
-        try {
-            if (typeof window.setSocialMediaSharingData === "function") {
-                window.setSocialMediaSharingData();
-            }
-        } catch (error) {
-            console.error("Error al ejecutar setSocialMediaSharingData: ", error);
-        }
-    
-        // Agregar evento al botón para abrir el checkout
-        document.getElementById('checkoutButton').addEventListener('click', function () {
+        document.getElementById("checkoutButton").addEventListener("click", function () {
             handler.open(data);
         });
     </script>
