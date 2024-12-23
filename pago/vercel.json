@@ -8,7 +8,7 @@
   ],
   "routes": [
     {
-      "src": "/pasarela/pago/checkout2.html",
+      "src": "/pago/checkout2.html",
       "dest": "/pasarela/pago/checkout2.html"
     }
   ]
